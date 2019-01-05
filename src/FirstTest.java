@@ -121,7 +121,6 @@ public class FirstTest {
                 "Java (programming language)",
                 article_title
         );
-        By by1 = By.
     }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
