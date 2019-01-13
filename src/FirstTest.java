@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by Happy on 02.01.2019.
@@ -123,6 +124,71 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void homeTask_Ex2_ToLesson_2() {
+        //Переходим на страницу ввода поиска, чтобы легче было проверять. По заданию этого шага не нужно.
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Can not find 'search Wikipedia' input",
+                5
+        );
+
+        WebElement search_field = waitForElementPresent(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Can not find search field .",
+                5
+        );
+
+        String search_value = search_field.getAttribute("text");
+
+        Assert.assertEquals(
+                "We can not compare 'Search…' text in the search field before enter a search value.",
+                "Search…",
+                search_value
+        );
+    }
+
+    @Test
+    public void homeTask_Ex3_ToLesson_2() {
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Can not find 'search Wikipedia' input",
+                5
+        );
+        //Для получения одного результата поиска введите "dhgfdis"
+        String search_value = "Java";
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                search_value,
+                "Can not find search input.",
+                10
+        );
+
+        String search_result_value = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']";
+        waitForElementPresent(
+                By.xpath(search_result_value),
+                "Не найдено ни одного результата по значению поиска '" + search_value + "'",
+                15
+        );
+        int amount_of_search_results = getAmountOfElemets(
+                By.xpath(search_result_value)
+        );
+        if (amount_of_search_results == 1) {
+            Assert.assertFalse("Найден только один результат поиска",
+                    amount_of_search_results == 1);
+        }
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "Не найдена кнопка X для отмены результата поиска.",
+                0
+        );
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_empty_message"),
+                "Не пропали результаты поиска после отмены.",
+                10
+        );
+    }
+
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
@@ -158,4 +224,10 @@ public class FirstTest {
         element.clear();
         return element;
     }
+
+    private int getAmountOfElemets(By by) {
+        List elements = driver.findElements(by);
+        return elements.size();
+    }
 }
+
