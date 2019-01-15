@@ -236,7 +236,7 @@ public class FirstTest {
                 //By.xpath("//*[@text='Add to reading list']"),
                 By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.LinearLayout[3]/android.widget.RelativeLayout/android.widget.TextView"),
                 "Can not find option to add article to reading list",
-                5
+                7
         );
         waitForElementAndClick(
                 By.id("org.wikipedia:id/onboarding_button"),
@@ -301,7 +301,7 @@ public class FirstTest {
 //                By.xpath("//*[@text='Add to reading list']"),
                 By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.LinearLayout[3]/android.widget.RelativeLayout/android.widget.TextView"),
                 "Can not find option to add article to reading list",
-                5
+                7
         );
         waitForElementAndClick(
                 By.id("org.wikipedia:id/item_container"),
@@ -323,16 +323,6 @@ public class FirstTest {
                 "Can not find created folder.",
                 5
         );
-        Assert.assertEquals(
-                "Заголовок первой статьи отличается от ожидаемого.",
-                first_article_title,
-                "Java (programming language)"
-        );
-        Assert.assertEquals(
-                "Заголовок второй статьи отличается от ожидаемого.",
-                second_article_title,
-                "Java (software platform)"
-        );
 
         //Добавляю рандоммный метод выбора статьи для удаления (для разнообразия).
         Random random = new Random();
@@ -342,22 +332,28 @@ public class FirstTest {
                     By.xpath("//*[@text='" + first_article_title + "']"),
                     "Не могу найти первую статью для удаления " + first_article_title
             );
-            Assert.assertEquals(
-                    "Заголовок второй статьи отличается от ожидаемого.",
-                    second_article_title,
-                    "Java (software platform)"
+            waitForElementPresent(
+                    By.xpath("//*[@text='" + second_article_title + "']"),
+                    "Заголовок второй статьи отличается от ожидаемого." + second_article_title,
+                    5
             );
         } else if (article_to_delete == 1) {
             swipeElementToLeft(
                     By.xpath("//*[@text='" + second_article_title + "']"),
                     "Не могу найти вторую статью для удаления " + second_article_title
             );
-            Assert.assertEquals(
-                    "Заголовок первой статьи отличается от ожидаемого.",
-                    first_article_title,
-                    "Java (programming language)"
+            waitForElementPresent(
+                    By.xpath("//*[@text='" + first_article_title + "']"),
+                    "Заголовок первой статьи отличается от ожидаемого." + first_article_title,
+                    5
             );
         }
+        int final_count_of_articles = getAmountOfElemets(By.id("org.wikipedia:id/item_container"));
+        Assert.assertEquals(
+                "Статья не была удалена.",
+                1,
+                final_count_of_articles
+        );
     }
 
     @Test
@@ -726,7 +722,7 @@ public class FirstTest {
         TouchAction action = new TouchAction(driver);
         action
                 .press(right_x, middle_y)
-                .waitAction(150)
+                .waitAction(200)
                 .moveTo(left_x, middle_y)
                 .release().perform();
     }
