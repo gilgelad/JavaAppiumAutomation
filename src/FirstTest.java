@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Happy on 02.01.2019.
@@ -190,6 +191,173 @@ public class FirstTest {
                 "Не пропали результаты поиска после отмены.",
                 10
         );
+    }
+
+    @Test
+    public void homeTask_Ex5_ToLesson_3() {
+    /*Написать тест, который:
+    1. Сохраняет две статьи в одну папку
+    2. Удаляет одну из статей
+    3. Убеждается, что вторая осталась
+    4. Переходит в неё и убеждается, что title совпадает*/
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Can not find 'search Wikipedia' input",
+                5
+        );
+        String search_text_in_wiki = "Java";
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                search_text_in_wiki,
+                "Can not find search input.",
+                5
+        );
+        waitForElementAndClick(
+                By.xpath("//*[@text='Object-oriented programming language']"),
+                "Can not find topic about Java 'Object-oriented programming language'",
+                5
+        );
+        //Сохраняем данные статьи для получения значения поля title
+        WebElement title_element_1 = waitForElementPresent(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "Can not find article title.",
+                15
+        );
+
+        String first_article_title = title_element_1.getAttribute("text");
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageView[@content-desc='More options']"),
+                "Can not find button to open more options.",
+                5
+        );
+        waitForElementAndClick(
+                //By.xpath("//*[@text='Add to reading list']"),
+                By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.LinearLayout[3]/android.widget.RelativeLayout/android.widget.TextView"),
+                "Can not find option to add article to reading list",
+                5
+        );
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/onboarding_button"),
+                "Can not find 'Got it' tip overlay.",
+                5
+        );
+        waitForElementAndClear(
+                By.id("org.wikipedia:id/text_input"),
+                "Can not find input to set name of articles folder.",
+                5
+        );
+
+        String name_of_folder = "Home task Ex5";
+
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/text_input"),
+                name_of_folder,
+                "Can not put text into articles folder input.",
+                5
+        );
+        waitForElementAndClick(
+                By.xpath("//*[@text='OK']"),
+                "Can not press OK button.",
+                5
+        );
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
+                "Can not close article, can not click 'X' button.",
+                5
+        );
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Can not find 'search Wikipedia' input",
+                5
+        );
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                search_text_in_wiki,
+                "Can not find search input.",
+                5
+        );
+        waitForElementAndClick(
+                By.xpath("//*[@text='Set of several computer software products and specifications']"),
+                "Can not find topic about Java 'Object-oriented programming language'",
+                5
+        );
+        //Сохраняем данные статьи для получения значения поля title
+        WebElement title_element_2 = waitForElementPresent(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "Can not find article title.",
+                15
+        );
+
+        String second_article_title = title_element_2.getAttribute("text");
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageView[@content-desc='More options']"),
+                "Can not find button to open more options.",
+                5
+        );
+        waitForElementAndClick(
+//                By.xpath("//*[@text='Add to reading list']"),
+                By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.LinearLayout[3]/android.widget.RelativeLayout/android.widget.TextView"),
+                "Can not find option to add article to reading list",
+                5
+        );
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/item_container"),
+                "Can not find created folder.",
+                15
+        );
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
+                "Can not close article, can not click 'X' button.",
+                5
+        );
+        waitForElementAndClick(
+                By.xpath("//android.widget.FrameLayout[@content-desc='My lists']"),
+                "Can not find navigation button to 'My Lists'.",
+                5
+        );
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/item_container"),
+                "Can not find created folder.",
+                5
+        );
+        Assert.assertEquals(
+                "Заголовок первой статьи отличается от ожидаемого.",
+                first_article_title,
+                "Java (programming language)"
+        );
+        Assert.assertEquals(
+                "Заголовок второй статьи отличается от ожидаемого.",
+                second_article_title,
+                "Java (software platform)"
+        );
+
+        //Добавляю рандоммный метод выбора статьи для удаления (для разнообразия).
+        Random random = new Random();
+        int article_to_delete = random.nextInt(2);
+        if (article_to_delete == 0) {
+            swipeElementToLeft(
+                    By.xpath("//*[@text='" + first_article_title + "']"),
+                    "Не могу найти первую статью для удаления " + first_article_title
+            );
+            Assert.assertEquals(
+                    "Заголовок второй статьи отличается от ожидаемого.",
+                    second_article_title,
+                    "Java (software platform)"
+            );
+        } else if (article_to_delete == 1) {
+            swipeElementToLeft(
+                    By.xpath("//*[@text='" + second_article_title + "']"),
+                    "Не могу найти вторую статью для удаления " + second_article_title
+            );
+            Assert.assertEquals(
+                    "Заголовок первой статьи отличается от ожидаемого.",
+                    first_article_title,
+                    "Java (programming language)"
+            );
+        }
     }
 
     @Test
