@@ -399,6 +399,33 @@ public class FirstTest {
     }
 
     @Test
+    public void homeTask_Ex6_ToLesson_3() {
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Can not find 'search Wikipedia' input",
+                5
+        );
+        String search_text_in_wiki = "Java";
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                search_text_in_wiki,
+                "Can not find search input.",
+                5
+        );
+        waitForElementAndClick(
+                By.xpath("//*[@text='Object-oriented programming language']"),
+                "Can not find topic about Java 'Object-oriented programming language'",
+                5
+        );
+        boolean assert_result = assertElementPresent(By.id("org.wikipedia:id/view_page_title_text"));
+        Assert.assertEquals(
+                "Не найден искомый элемент на странице",
+                true,
+                assert_result
+        );
+    }
+
+    @Test
     public void testSwipeArticle() {
         waitForElementAndClick(
                 By.id("org.wikipedia:id/search_container"),
@@ -713,6 +740,15 @@ public class FirstTest {
         if (amount_of_elements > 0) {
             String default_message = "An element '" + by.toString() + "' supposed to be not present.";
             throw new AssertionError(default_message + " " + error_message);
+        }
+    }
+
+    private boolean assertElementPresent(By by){
+        try {
+            driver.findElement(by);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 
