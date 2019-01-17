@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -192,6 +193,46 @@ public class FirstTest {
                 "Не пропали результаты поиска после отмены.",
                 10
         );
+    }
+
+    @Test
+    public void testHomeTask_Ex4_ToLesson_2() {
+    //Ищет какое-то слово
+    //Убеждается, что в каждом результате поиска есть это слово.
+        waitForElementAndClick(By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+        waitForElementAndSendKeys(By.xpath("//*[contains(@text,'Search…')]"),
+                "Java",
+                "cannot find search input",
+                5
+        );
+
+        List <WebElement> results_list = waitForElementsPresent(
+                 By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']"),
+                "Can not find elements for List",
+                5
+        );
+
+        List <String> titles_of_result = new ArrayList<>();
+        for (WebElement element:results_list){
+            titles_of_result.add(element.findElement(By.id("org.wikipedia:id/page_list_item_title")).getText());
+        }
+
+//        List <String> descriptions_of_result = new ArrayList<>();
+//        for (WebElement element:results_list){
+//            descriptions_of_result.add(element.findElement(By.id("org.wikipedia:id/page_list_item_description")).getText());
+//        }
+
+        for (int i = 0; i < titles_of_result.size(); i++){
+            Assert.assertTrue("There is no 'Java' in the title at line " + i,
+                    titles_of_result.get(i).contains("Java")||titles_of_result.get(i).contains("java"));
+        }
+//        for (int i = 0; i < descriptions_of_result.size(); i++){
+//            Assert.assertTrue("There is no 'Java' in the description at line " + i,
+//                    descriptions_of_result.get(i).contains("Java")||descriptions_of_result.get(i).contains("java"));
+//        }
     }
 
     @Test
@@ -628,6 +669,12 @@ public class FirstTest {
 
     private WebElement waitForElementPresent(By by, String error_message) {
         return waitForElementPresent(by, error_message, 5);
+    }
+
+    private List<WebElement> waitForElementsPresent(By by, String error_message, long timeoutInSeconds ){
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "\n");
+        return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
     }
 
     private WebElement waitForElementAndClick(By by, String error_message, long timeoutInSeconds) {
