@@ -417,11 +417,9 @@ public class FirstTest {
                 "Can not find topic about Java 'Object-oriented programming language'",
                 5
         );
-        boolean assert_result = assertElementPresent(By.id("org.wikipedia:id/view_page_title_text"));
-        Assert.assertEquals(
-                "Не найден искомый элемент на странице",
-                true,
-                assert_result
+        assertElementPresent(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "We were not able to find the element on this page."
         );
     }
 
@@ -743,12 +741,12 @@ public class FirstTest {
         }
     }
 
-    private boolean assertElementPresent(By by){
+    private void assertElementPresent(By by, String error_message){
+        String default_message = "The element '" + by.toString() + "' was not found.";
         try {
             driver.findElement(by);
-            return true;
         } catch (Exception e) {
-            return false;
+            throw new AssertionError(default_message + " " + error_message);
         }
     }
 
