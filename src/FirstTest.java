@@ -219,20 +219,10 @@ public class FirstTest {
         for (WebElement element:results_list){
             titles_of_result.add(element.findElement(By.id("org.wikipedia:id/page_list_item_title")).getText());
         }
-
-//        List <String> descriptions_of_result = new ArrayList<>();
-//        for (WebElement element:results_list){
-//            descriptions_of_result.add(element.findElement(By.id("org.wikipedia:id/page_list_item_description")).getText());
-//        }
-
         for (int i = 0; i < titles_of_result.size(); i++){
             Assert.assertTrue("There is no 'Java' in the title at line " + i,
                     titles_of_result.get(i).contains("Java")||titles_of_result.get(i).contains("java"));
         }
-//        for (int i = 0; i < descriptions_of_result.size(); i++){
-//            Assert.assertTrue("There is no 'Java' in the description at line " + i,
-//                    descriptions_of_result.get(i).contains("Java")||descriptions_of_result.get(i).contains("java"));
-//        }
     }
 
     @Test
@@ -808,82 +798,5 @@ public class FirstTest {
                 .moveTo(left_x, middle_y)
                 .release().perform();
     }
-
-
-
-
-
-
-    //    @Test
-//    public void homeTask_Ex3_ToLesson_4() throws InterruptedException {
-//        waitForElementAndClick(
-//                By.id("org.wikipedia:id/search_container"),
-//                "Can not find 'search Wikipedia' input",
-//                5
-//        );
-//        //Для получения одного результата поиска введите "dhgfdis"
-//        String search_value = "Java";
-//        waitForElementAndSendKeys(
-//                By.xpath("//*[contains(@text,'Search…')]"),
-//                search_value,
-//                "Can not find search input.",
-//                10
-//        );
-//
-//        String search_result_value = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']";
-//
-//        waitForElementPresent(
-//                By.xpath(search_result_value),
-//                "Can not find any search result for '" + search_value + "'",
-//                15
-//        );
-//
-//        int iter_count = getAmountOfElemets(By.xpath(search_result_value));
-//
-//        //System.out.println(iter_count);
-//
-//        for (int i = 0; i < iter_count; i++) {
-//        //Получаем значение поля text для топика у конткйнера [i]
-//            String search_topic_text_criteria = "" +
-//                    "//*[@resource-id='org.wikipedia:id/search_results_list']" +
-//                    "/[@resource-id='org.wikipedia:id/page_list_item_container']" +
-//                    "/[@resource-id='org.wikipedia:id/page_list_item_title']";
-//
-//            //Получаем значение поля text для описания к топику у конткйнера [i]
-//            String search_description_text_criteria = "" +
-//                "//*[@resource-id='org.wikipedia:id/search_results_list']" +
-//                "/*[@resource-id='org.wikipedia:id/page_list_item_container'][i]" +
-//                "/*[@resource-id='org.wikipedia:id/page_list_item_description']";
-//
-//            WebElement topic_text = waitForElementPresent(
-//                By.xpath(search_topic_text_criteria),
-//                    "Не найденно результатов поиска топика в контейнере '" + i + "'",
-//                    5
-//                );
-//            WebElement description_text = waitForElementPresent(
-//                By.xpath(search_description_text_criteria),
-//                "Не найденно результатов поиска описания топика в контейнере '" + i + "'",
-//                5
-//            );
-//
-//            String topic_text_value = topic_text.getAttribute("text");
-//            String description_text_value = description_text.getAttribute("text");
-//
-//            if (topic_text_value.toLowerCase().indexOf(search_value.toLowerCase()) == -1) {
-//                Assert.assertEquals(
-//                        "Не найдено совпадений значения поиска '" + search_value + "' в названии топика '" + topic_text_value + "'",
-//                        search_value,
-//                        topic_text_value
-//                );
-//            } else if (description_text_value.toLowerCase().indexOf(search_value.toLowerCase()) == -1) {
-//                Assert.assertEquals(
-//                        "Не найдено совпадений значения поиска '" + search_value + "' в названии описания '" + description_text_value + "'",
-//                        search_value,
-//                        description_text_value
-//                );
-//            }
-//        }
-//    }
-
 }
 
