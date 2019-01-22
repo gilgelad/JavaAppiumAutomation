@@ -30,14 +30,15 @@ public class MyListsPageObject extends MainPageObject {
         super(driver);
     }
 
-//    public void openFolderByName(String name_of_folder) {
-//        String folder_name_xpath = getFolderByXpathByName(name_of_folder);
-//        this.waitForElementAndClick(
-////                By.id("org.wikipedia:id/item_container"),
-//                By.xpath(folder_name_xpath),
-//                "Can not find folder by Name " + name_of_folder,
-//                5
-//        );
+    public void openFolderByName(String name_of_folder) {
+        String folder_name_xpath = getFolderByXpathByName(name_of_folder);
+        this.waitForElementAndClick(
+//                By.id("org.wikipedia:id/item_container"),
+                By.xpath(folder_name_xpath),
+                "Can not find folder by Name " + name_of_folder,
+                5
+        );
+    }
 
     public void openFolderById(String id_of_folder) {
         String folder_id_xpath = getSavedArticleXpathByID(id_of_folder);

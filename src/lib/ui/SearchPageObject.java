@@ -3,6 +3,7 @@ package lib.ui;
 import io.appium.java_client.AppiumDriver;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * Created by Happy on 21.01.2019.
@@ -15,7 +16,8 @@ public class SearchPageObject extends MainPageObject {
         SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn",
         SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']",
         SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']",
-        SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']";
+        SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']",
+        SEARCH_EMPTY_MESSAGE_BY_RESULT_ELEMENT = "org.wikipedia:id/search_empty_message";
 
     public SearchPageObject(AppiumDriver driver) {
         super(driver);
@@ -69,6 +71,10 @@ public class SearchPageObject extends MainPageObject {
 
     public void waitForEmptyResultsLabel() {
         this.waitForElementPresent(By.xpath(SEARCH_EMPTY_RESULT_ELEMENT), "Can not find empty result element.", 15);
+    }
+
+    public void waitForEmptyMessageResultElement() {
+        this.waitForElementPresent(By.id(SEARCH_EMPTY_MESSAGE_BY_RESULT_ELEMENT), "Can not find the page with empty results.", 15);
     }
 
     public void assertThereIsNoResultOfSearch() {

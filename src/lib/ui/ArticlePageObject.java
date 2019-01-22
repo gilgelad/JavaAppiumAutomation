@@ -74,6 +74,24 @@ public class ArticlePageObject extends MainPageObject {
         );
     }
 
+    public void addArticleToMyListIntoAlreadyExistFolder(String name_of_folder) {
+        this.waitForElementAndClick(
+                By.xpath(OPTIONS_BUTTON),
+                "Can not find button to open more options.",
+                5
+        );
+        this.waitForElementAndClick(
+                By.xpath(OPTIONS_ADD_TO_MY_LIST_BUTTON),
+                "Can not find option to add article to reading list",
+                5
+        );
+        this.waitForElementAndClick(
+                By.xpath("//*[@text = '" + name_of_folder + "']"),
+                "Can not find exist article by name " + name_of_folder,
+                15
+        );
+    }
+
     public void closeArticle() {
         this.waitForElementAndClick(
                 By.xpath(CLOSE_ARTICLE_BUTTON),
